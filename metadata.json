@@ -1,0 +1,6 @@
+{
+  "name": "Live Weather App & API Explainer",
+  "description": "A beginner-friendly live weather app powered by the free Open-Meteo API with live weather for Chennai, city search, and simple API explanations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

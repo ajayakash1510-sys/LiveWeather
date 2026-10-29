@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Weather App | Open-Meteo API</title>
+  <meta name="description" content="A live weather application using the free Open-Meteo API with city search, live weather, and 3-day forecast." />
+  <meta property="og:title" content="Live Weather App | Open-Meteo API" />
+  <meta property="og:description" content="A live weather application using the free Open-Meteo API with city search, live weather, and 3-day forecast." />
+  <meta property="og:type" content="website" />
+
+  <!-- Google Fonts for clean, modern typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Link external stylesheet -->
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <!-- Main application container -->
+  <main class="app-container">
+    
+    <!-- Header Section with Title & Subtitle -->
+    <header class="app-header">
+      <div class="header-badge">Free Open-Meteo API • No Key Required</div>
+      <h1 class="app-title">SkyCast Weather</h1>
+      <p class="app-subtitle">Real-time weather data &amp; 3-day forecast for any city</p>
+    </header>
+
+    <!-- Search Section: Input, Get Weather Button, and Quick City Chips -->
+    <section class="search-section" aria-label="City Search">
+      <form id="weather-form" class="search-box-wrapper" onsubmit="return false;">
+        <input 
+          type="text" 
+          id="city-input" 
+          class="city-input" 
+          placeholder="Enter city name (e.g. Chennai, Paris)..." 
+          autocomplete="off"
+          aria-label="City name"
+          required
+        />
+        <button type="submit" id="search-btn" class="search-btn">
+          <span>Get Weather</span>
+        </button>
+      </form>
+
+      <!-- Quick-select popular city buttons -->
+      <div class="quick-chips">
+        <span class="chips-label">Try:</span>
+        <button type="button" class="chip-btn" data-city="Chennai">Chennai 🇮🇳</button>
+        <button type="button" class="chip-btn" data-city="London">London 🇬🇧</button>
+        <button type="button" class="chip-btn" data-city="Tokyo">Tokyo 🇯🇵</button>
+        <button type="button" class="chip-btn" data-city="New York">New York 🇺🇸</button>
+      </div>
+    </section>
+
+    <!-- Loading Indicator (hidden by default) -->
+    <div id="loading-spinner" class="status-msg loading-msg hidden" role="status" aria-live="polite">
+      <div class="spinner"></div>
+      <span>Fetching live weather data...</span>
+    </div>
+
+    <!-- Friendly Error Message Box (hidden by default) -->
+    <div id="error-message" class="status-msg error-msg hidden" role="alert" aria-live="assertive">
+      <span class="error-icon">⚠️</span>
+      <span id="error-text">City not found. Please check spelling and try again.</span>
+    </div>
+
+    <!-- Weather Results Container -->
+    <div id="weather-results" class="weather-results">
+      
+      <!-- Primary Weather Card (Glassmorphic) -->
+      <article class="weather-card" id="weather-card">
+        <div class="card-header">
+          <div>
+            <h2 id="city-name" class="city-name">Chennai</h2>
+            <p id="city-details" class="city-details">Tamil Nadu, India</p>
+          </div>
+          <span id="live-tag" class="live-tag">● LIVE</span>
+        </div>
+
+        <div class="card-main">
+          <!-- Big Weather Emoji Icon -->
+          <div id="weather-icon" class="weather-icon" aria-label="Weather icon">☀️</div>
+          
+          <!-- Large Temperature Display -->
+          <div class="temp-group">
+            <span id="temperature" class="temperature">31°C</span>
+            <span id="weather-desc" class="weather-desc">Clear Sky</span>
+          </div>
+        </div>
+
+        <!-- Weather Extra Details Grid -->
+        <div class="weather-details-grid">
+          <div class="detail-item">
+            <span class="detail-label">Wind Speed</span>
+            <span id="wind-speed" class="detail-val">12 km/h</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Humidity</span>
+            <span id="humidity" class="detail-val">68%</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Coordinates</span>
+            <span id="coords" class="detail-val">13.08°N, 80.27°E</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3-Day Forecast Section -->
+      <section class="forecast-section" id="forecast-section" aria-label="3-Day Forecast">
+        <h3 class="forecast-title">3-Day Forecast</h3>
+        <div class="forecast-grid" id="forecast-container">
+          <!-- Dynamic 3-day forecast cards inserted via script.js -->
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Educational Section: API & Chennai JSON Explainer -->
+    <section class="explainer-section">
+      <div class="explainer-card">
+        <button type="button" id="toggle-guide-btn" class="toggle-guide-btn">
+          <span>📖 Learn: What is an API &amp; How Open-Meteo Works</span>
+          <span id="guide-arrow" class="guide-arrow">▼</span>
+        </button>
+
+        <div id="guide-content" class="guide-content">
+          <div class="guide-grid">
+            
+            <div class="guide-box">
+              <h4>🍽️ What is an API in simple words?</h4>
+              <p>
+                Think of an <strong>API</strong> (Application Programming Interface) like a <strong>waiter in a restaurant</strong>:
+              </p>
+              <ul>
+                <li><strong>You (the Client / Browser):</strong> Look at the menu and place an order ("Give me Chennai's weather!").</li>
+                <li><strong>The Waiter (The API):</strong> Takes your request to the kitchen and brings back your order.</li>
+                <li><strong>The Kitchen (The Weather Server):</strong> Prepares the requested data and packages it as <strong>JSON</strong> text.</li>
+              </ul>
+              <p>Without an API, your website wouldn't know the temperature in Chennai because it has no weather sensors of its own!</p>
+            </div>
+
+            <div class="guide-box">
+              <h4>🔄 How a Weather Website Gets Live Data</h4>
+              <ol>
+                <li><strong>User enters a city:</strong> e.g., "Chennai".</li>
+                <li><strong>Step 1 - Geocoding:</strong> The app calls Open-Meteo's Geocoding API to find Chennai's latitude (<code>13.0827</code>) and longitude (<code>80.2707</code>).</li>
+                <li><strong>Step 2 - Forecast Fetch:</strong> The app requests current weather and daily forecast from Open-Meteo using those coordinates.</li>
+                <li><strong>Step 3 - Display:</strong> JavaScript parses the JSON response and updates the HTML text, emojis, and forecast cards.</li>
+              </ol>
+            </div>
+
+            <div class="guide-box full-width">
+              <h4>🌐 Example URL for Chennai Current Weather</h4>
+              <p>Copy or click this URL in a new tab to see raw weather data straight from the satellite &amp; weather models:</p>
+              <div class="code-block">
+                <code>https://api.open-meteo.com/v1/forecast?latitude=13.0827&amp;longitude=80.2707&amp;current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&amp;daily=weather_code,temperature_2m_max,temperature_2m_min&amp;timezone=auto&amp;forecast_days=3</code>
+              </div>
+            </div>
+
+            <div class="guide-box full-width">
+              <h4>📦 What the JSON Response Means (Field-by-Field)</h4>
+              <div class="json-explainer-table">
+                <div class="json-row">
+                  <span class="json-key">"latitude": 13.08</span>
+                  <span class="json-desc">The precise geographical latitude coordinate used for the calculation.</span>
+                </div>
+                <div class="json-row">
+                  <span class="json-key">"longitude": 80.28</span>
+                  <span class="json-desc">The geographical longitude coordinate of the location.</span>
+                </div>
+                <div class="json-row">
+                  <span class="json-key">"temperature_2m": 31.4</span>
+                  <span class="json-desc">Air temperature measured at 2 meters above ground level (standard meteorological height) in °C.</span>
+                </div>
+                <div class="json-row">
+                  <span class="json-key">"relative_humidity_2m": 72</span>
+                  <span class="json-desc">Relative humidity percentage at 2 meters above ground.</span>
+                </div>
+                <div class="json-row">
+                  <span class="json-key">"weather_code": 1</span>
+                  <span class="json-desc">WMO standard weather code (e.g., 0 = Clear Sky ☀️, 1-3 = Partly Cloudy ⛅, 61 = Rain 🌧️, 95 = Thunderstorm ⛈️).</span>
+                </div>
+                <div class="json-row">
+                  <span class="json-key">"wind_speed_10m": 12.5</span>
+                  <span class="json-desc">Wind speed measured at 10 meters above ground level (km/h).</span>
+                </div>
+                <div class="json-row">
+                  <span class="json-key">"daily": { ... }</span>
+                  <span class="json-desc">Arrays of daily timestamps, WMO weather codes, max temperatures, and min temperatures for the 3-day forecast.</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Data provided by <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo.com</a> (Free Weather API, CC BY 4.0)</p>
+    </footer>
+
+  </main>
+
+  <!-- Link external JavaScript file -->
+  <script src="./script.js"></script>
+</body>
+</html>
