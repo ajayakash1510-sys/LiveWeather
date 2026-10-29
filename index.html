@@ -35,9 +35,9 @@
           type="text" 
           id="city-input" 
           class="city-input" 
-          placeholder="Enter city name (e.g. Chennai, Paris)..." 
+          placeholder="Enter city or area (e.g. Chennai, Velachery, T. Nagar, Tambaram)..." 
           autocomplete="off"
-          aria-label="City name"
+          aria-label="City or area name"
           required
         />
         <button type="submit" id="search-btn" class="search-btn">
@@ -45,13 +45,14 @@
         </button>
       </form>
 
-      <!-- Quick-select popular city buttons -->
+      <!-- Quick-select popular city and Chennai locality chips -->
       <div class="quick-chips">
-        <span class="chips-label">Try:</span>
-        <button type="button" class="chip-btn" data-city="Chennai">Chennai 🇮🇳</button>
-        <button type="button" class="chip-btn" data-city="London">London 🇬🇧</button>
-        <button type="button" class="chip-btn" data-city="Tokyo">Tokyo 🇯🇵</button>
-        <button type="button" class="chip-btn" data-city="New York">New York 🇺🇸</button>
+        <span class="chips-label">Popular:</span>
+        <button type="button" class="chip-btn" data-city="Chennai">Chennai 🏛️</button>
+        <button type="button" class="chip-btn" data-city="T. Nagar, Chennai">T. Nagar 🛍️</button>
+        <button type="button" class="chip-btn" data-city="Velachery, Chennai">Velachery 🏢</button>
+        <button type="button" class="chip-btn" data-city="Tambaram">Tambaram 🚆</button>
+        <button type="button" class="chip-btn" data-city="Mahabalipuram">Mahabalipuram 🌊</button>
       </div>
     </section>
 
@@ -113,6 +114,39 @@
         <h3 class="forecast-title">3-Day Forecast</h3>
         <div class="forecast-grid" id="forecast-container">
           <!-- Dynamic 3-day forecast cards inserted via script.js -->
+        </div>
+      </section>
+
+      <!-- In & Around Chennai Weather Hub Section -->
+      <section class="chennai-region-section" id="chennai-region-section" aria-label="In and Around Chennai Live Weather">
+        <div class="chennai-section-header">
+          <div>
+            <h3 class="chennai-section-title">📍 In &amp; Around Chennai</h3>
+            <p class="chennai-section-subtitle">Live temperatures &amp; microclimate updates across Chennai neighborhoods &amp; suburbs</p>
+          </div>
+          <button type="button" id="refresh-chennai-btn" class="refresh-badge-btn" title="Refresh live readings">
+            <span class="refresh-icon">🔄</span> Refresh
+          </button>
+        </div>
+
+        <!-- Filter tabs for Chennai zones -->
+        <div class="chennai-filter-tabs" role="tablist">
+          <button type="button" class="zone-tab active" data-zone="all">All (16 Areas)</button>
+          <button type="button" class="zone-tab" data-zone="central">Central &amp; Coast</button>
+          <button type="button" class="zone-tab" data-zone="south">IT Corridor &amp; South</button>
+          <button type="button" class="zone-tab" data-zone="west">Industrial &amp; West</button>
+          <button type="button" class="zone-tab" data-zone="nearby">Nearby Towns</button>
+        </div>
+
+        <!-- Loading indicator for neighborhood cards -->
+        <div id="chennai-places-loading" class="chennai-places-loading">
+          <div class="spinner"></div>
+          <span>Loading live temperatures for places in &amp; around Chennai...</span>
+        </div>
+
+        <!-- Dynamic Grid of Places in and around Chennai -->
+        <div class="chennai-places-grid" id="chennai-places-grid">
+          <!-- Populated dynamically by script.js -->
         </div>
       </section>
 

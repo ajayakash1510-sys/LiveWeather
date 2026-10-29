@@ -16,6 +16,11 @@ SkyCast demonstrates how web browsers communicate with external REST APIs using 
 - **2-Step API Flow:**
   1. **Geocoding API:** Translates city names (e.g. *"Chennai"*, *"London"*) into geographical coordinates (`latitude` & `longitude`).
   2. **Forecast API:** Fetches current temperature, weather code, wind speed, relative humidity, and daily min/max forecasts.
+- **In & Around Chennai Live Hub (18 Locations):**
+  - Instant microclimate updates across Central Chennai, IT Corridor (OMR), Western Industrial suburbs, and nearby heritage towns.
+  - Interactive zone filters: *Central & Coast*, *IT Corridor & South*, *Industrial & West*, and *Nearby Towns*.
+  - Covers Marina Beach, Mylapore, T. Nagar, Adyar, Velachery, OMR / Sholinganallur, Siruseri, Tambaram, Pallavaram Airport, Porur, Ambattur, Avadi, Sriperumbudur, Mahabalipuram, Kanchipuram, Chengalpattu, and Ennore Port.
+  - 1-click selection: Tap any neighborhood to immediately load its high-precision current weather and 3-day forecast in the main card.
 - **Glassmorphic UI:** Modern sky-blue gradient backdrop with frosted glass card effects (`backdrop-filter`).
 - **Dynamic Weather Emojis & Descriptions:** Translates official WMO (World Meteorological Organization) weather codes into friendly emojis (☀️, ⛅, 🌧️, ⛈️, ❄️) and readable text descriptions.
 - **3-Day Forecast Section:** Displays day name (*Today*, *Tomorrow*, weekday), weather icon, and daily maximum and minimum temperatures.
@@ -23,7 +28,7 @@ SkyCast demonstrates how web browsers communicate with external REST APIs using 
   - "Loading..." spinner while fetching.
   - Friendly error messages for misspelt cities, blank input, or offline state.
   - Pressing **Enter** key or clicking **Get Weather** triggers the search.
-  - One-click quick chips for popular cities (Chennai, London, Tokyo, New York).
+  - One-click quick chips for Chennai, T. Nagar, Velachery, Tambaram, and Mahabalipuram.
   - Pre-loads Chennai's live weather automatically on startup.
 - **Fully Mobile Responsive:** Adapts seamlessly between smartphones, tablets, and wide monitors.
 
